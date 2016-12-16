@@ -6,18 +6,7 @@
 
     <groupId>com.github.yin.recipe</groupId>
     <artifactId>recipe-java-boot</artifactId>
-    <version>0.1-SNAPSHOT</version><dependency>
-     <groupId>org.eclipse.jetty</groupId>
-     <artifactId>jetty-server</artifactId>
-     <version>9.2.3.v20140905</version>
- </dependency>
-
-
-<dependency>
-     <groupId>org.eclipse.jetty</groupId>
-     <artifactId>jetty-servlet</artifactId>
-     <version>9.2.3.v20140905</version>
- </dependency>
+    <version>0.1-SNAPSHOT</version>
     <dependencies>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
@@ -53,6 +42,11 @@
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-util</artifactId>
             <version>9.2.12.v20150709</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>4.0</version>
         </dependency>
     </dependencies>
 
