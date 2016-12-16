@@ -1,16 +1,15 @@
 package recipe;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
+import com.google.common.io.Closeables;
 import com.google.common.net.HttpHeaders;
 import sun.net.www.http.HttpClient;
 
@@ -76,6 +75,7 @@ public class HttpConnectionProvider implements ConnectionProvider {
             synchronized (this) {
                 if (out != null) {
                     out.flush();
+
                 }
             }
         }
@@ -88,22 +88,44 @@ public class HttpConnectionProvider implements ConnectionProvider {
         @Override
         public void close() {
             synchronized (this) {
-                try {
-                    if (out != null) {
-                        out.close();
-                    }
-                } catch (IOException ex) {
-                } finally {
-                    out = null;
+                closeOutNonThreadSafe();
+                closeInNonThreadSafe();
+            }
+        }
+
+        private void closeInNonThreadSafe() {
+            if (in != null) {
+                Closeables.closeQuietly(in);
+                this.in = null;
+            }
+        }
+
+        private void closeOutNonThreadSafe() throws IOException {
+            if (out != null) {
+                Closeables.close(out, true);
+                this.out = null;
+            }
+        }
+
+        private void closeInNonThreadSafe_2() {
+            try {
+                if (in != null) {
+                    in.close();
                 }
-                try {
-                    if (in != null) {
-                        in.close();
-                    }
-                } catch (IOException ex) {
-                } finally {
-                    in = null;
+            } catch (IOException ex) {
+            } finally {
+                in = null;
+            }
+        }
+
+        private void closeOutNonThreadSafe_2() {
+            try {
+                if (out != null) {
+                    out.close();
                 }
+            } catch (IOException ex) {
+            } finally {
+                out = null;
             }
         }
 
@@ -120,13 +142,21 @@ public class HttpConnectionProvider implements ConnectionProvider {
             synchronized (this) {
                 if (httpConnection == null) {
                     httpConnection = (HttpURLConnection) url.openConnection();
-
+                    configHttpConnection(httpConnection);
                 }
             }
+            return httpConnection;
         }
 
         private URLConnection openHttpConnection() throws IOException {
             return url.openConnection();
+        }
+
+        private void configHttpConnection(HttpURLConnection con) throws ProtocolException {
+            con.setRequestMethod("POST");
+            con.setRequestProperty("User-Agent", USER_AGENT);
+            con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+            con.setDoOutput(true);
         }
     }
 }
