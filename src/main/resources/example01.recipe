@@ -1,0 +1,34 @@
+// Recipes do have a name
+recipe example01
+
+// What things we input, which outputs we want and where to place them
+input = [ 'message', 'service', 'restful' ]
+output = [ 'java', 'python' ]
+java.package = "com.github.yin.recipe.example01"
+
+// Messages are immutable value objects
+message Item {
+  int id
+  string content
+  option string label
+}
+
+message QueryRequest {
+  int lowId
+  int highId
+}
+
+message QueryResponse {
+  repeated Item results;
+}
+
+// RPC services handle procedure calls remote clients
+rpc ItemQuery {
+  QueryResponse query(Query
+}
+
+// Restful collections store just data documents
+restful Items {
+  stores Item
+  indexed Item.id
+}
