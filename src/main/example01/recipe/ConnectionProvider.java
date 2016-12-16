@@ -11,9 +11,9 @@ interface ConnectionProvider {
     Connection getConnection() throws IOException;
     Connection getConnection(ConnectionRoute subroute) throws IOException;
     interface Connection {
-        WritableByteChannel getTxChannel();
+        WritableByteChannel getTxChannel() throws IOException;
         void flush() throws IOException;
-        ReadableByteChannel getRxChannel();
+        ReadableByteChannel getRxChannel() throws IOException;
         void close();
     }
 }

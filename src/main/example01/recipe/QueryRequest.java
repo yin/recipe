@@ -7,8 +7,8 @@ import com.google.auto.value.AutoValue;
  */
 @AutoValue
 public abstract class QueryRequest {
-    public Item create(Query query) {
-        return new Autovalue_QueryRequest(query);
+    public QueryRequest create(Query query) {
+        return new AutoValue_QueryRequest(query);
     }
     public abstract Query query();
 }

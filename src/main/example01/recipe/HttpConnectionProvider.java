@@ -29,23 +29,13 @@ public class HttpConnectionProvider implements ConnectionProvider {
 
     @Override
     public Connection getConnection() throws IOException {
-        return getOutputChannel(NULL_SUBROUTE);
+        return getConnection(NULL_SUBROUTE);
     }
 
     @Override
     public Connection getConnection(ConnectionRoute subroute) throws IOException {
         URL url = new URL(baseUrl + subroute.subpath());
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("POST");
-        con.setRequestProperty(HttpHeaders.USER_AGENT, USER_AGENT);
-        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-        con.setDoOutput(true);
-        return Channels.newChannel(con.getOutputStream());
-    }
-
-    public void c() {
-        HttpClient c = HttpClient.New("http://localhost:8080");
-        c.
+        return new HttpConnection(url);
     }
 
     static class HttpConnection implements Connection {
@@ -56,12 +46,12 @@ public class HttpConnectionProvider implements ConnectionProvider {
         private InputStream in;
         private ReadableByteChannel rx;
 
-        public HttpConnection(String url) throws MalformedURLException {
-            this.url = new URL(url);
+        public HttpConnection(URL url) throws MalformedURLException {
+            this.url = url;
         }
 
         @Override
-        public WritableByteChannel getTxChannel() {
+        public WritableByteChannel getTxChannel() throws IOException {
             synchronized (this) {
                 if (tx == null) {
                     tx = Channels.newChannel(getOut());
@@ -75,22 +65,47 @@ public class HttpConnectionProvider implements ConnectionProvider {
             synchronized (this) {
                 if (out != null) {
                     out.flush();
-
+                    closeOutNonThreadSafe();
                 }
             }
         }
 
         @Override
-        public ReadableByteChannel getRxChannel() {
-            return null;
+        public ReadableByteChannel getRxChannel() throws IOException {
+            synchronized (this) {
+                if (rx == null) {
+                    rx = Channels.newChannel(getIn());
+                }
+            }
+            return rx;
         }
 
         @Override
         public void close() {
             synchronized (this) {
-                closeOutNonThreadSafe();
-                closeInNonThreadSafe();
+                try {
+                    closeOutNonThreadSafe();
+                    closeInNonThreadSafe();
+                } catch (IOException e) {}
             }
+        }
+
+        protected OutputStream getOut() throws IOException {
+            synchronized (this) {
+                if (out == null) {
+                    out = httpConnection().getOutputStream();
+                }
+            }
+            return out;
+        }
+
+        protected InputStream getIn() throws IOException {
+            synchronized (this) {
+                if (in == null) {
+                    in = httpConnection().getInputStream();
+                }
+            }
+            return in;
         }
 
         private void closeInNonThreadSafe() {
@@ -127,15 +142,6 @@ public class HttpConnectionProvider implements ConnectionProvider {
             } finally {
                 out = null;
             }
-        }
-
-        public OutputStream getOut() throws IOException {
-            synchronized (this) {
-                if (out == null) {
-                    out = httpConnection().getOutputStream();
-                }
-            }
-            return out;
         }
 
         private HttpURLConnection httpConnection() throws IOException {

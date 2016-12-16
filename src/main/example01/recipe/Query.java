@@ -7,9 +7,9 @@ import com.google.auto.value.AutoValue;
  */
 @AutoValue
 public abstract class Query {
-    public Item create(int lowId, int highId) {
-        return new Autovalue_Item(lowId, highId);
+    public Query create(long lowId, long highId) {
+        return new AutoValue_Query(lowId, highId);
     }
-    public abstract int lowId();
-    public abstract int highId();
+    public abstract long lowId();
+    public abstract long highId();
 }

@@ -8,8 +8,8 @@ import com.google.common.collect.ImmutableCollection;
  */
 @AutoValue
 public abstract class QueryResponse {
-    public Item create(ImmutableCollection<Item> results) {
-        return new Autovalue_QueryResponse(results);
+    public QueryResponse create(ImmutableCollection<Item> results) {
+        return new AutoValue_QueryResponse(results);
     }
     public abstract ImmutableCollection<Item> results();
 }

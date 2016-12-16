@@ -8,7 +8,8 @@ public class ItemQueryClient {
     public ItemQueryClient(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
     }
-    public QueryResponse query(QueryRequest) {
-        connectionProvider.getOutputChannel();
+    public QueryResponse query(QueryRequest request) {
+     //   connectionProvider.getOutputChannel();
+        throw new UnsupportedOperationException("this is TODO");
     }
 }
