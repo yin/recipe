@@ -1,39 +1,37 @@
-package recipe;
+package recipe.server;
 
 import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableCollection;
-import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
+import com.google.inject.multibindings.Multibinder;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static recipe.JavaLanguageUtilities.constructArray;
+import static recipe.server.JavaLanguageUtilities.constructArray;
 
 /**
- * I am so stupid, that I forgotten to change this javadoc, me fool.
+ * Run a demo of the Jetty server with some simple services.
  */
 public class ServerRunner implements Runnable {
     public static void main(String[] args) throws Exception {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(new ServerRunner());
-
     }
 
     public void run() {
         try {
-            Injector injectorStaticFiles = Guice.createInjector(new StaticFilesJettyModule());
-            Handler staticFilesHandler = injectorStaticFiles.getInstance(Handler.class);
             Injector injector = Guice.createInjector(
-                    new JettyHttpServerModule(ImmutableList.of(staticFilesHandler)));
+                    new JettyHttpServerModule(),
+                    new StaticFilesJettyModule());
             Server server = injector.getInstance(Server.class);
             // Start things up! By using the server.join() the server thread will join with the current thread.
             // See "http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Thread.html#join()" for more details.
@@ -49,10 +47,14 @@ public class ServerRunner implements Runnable {
      * See {@linkplain http://www.eclipse.org/jetty/documentation/9.3.x/embedded-examples.html}
      */
     class JettyHttpServerModule extends AbstractModule {
-        private final ImmutableCollection<Handler> handlers;
+        private final int port;
 
-        public JettyHttpServerModule(ImmutableCollection<Handler> handlers) {
-            this.handlers = handlers;
+        public JettyHttpServerModule() {
+            this(8080);
+        }
+
+        public JettyHttpServerModule(int port) {
+            this.port = port;
         }
 
         @Override
@@ -60,12 +62,12 @@ public class ServerRunner implements Runnable {
         }
 
         @Provides
-        public Server createServer() {
-            Server server = new Server(8080);
+        public Server createServer(Set<Handler> handlers) {
+            Server server = new Server(port);
             // Add the ResourceHandler to the server.
-            HandlerList handlers = new HandlerList();
-            handlers.setHandlers(constructArray(Handler.class, this.handlers, new DefaultHandler()));
-            server.setHandler(handlers);
+            HandlerList handlerList = new HandlerList();
+            handlerList.setHandlers(constructArray(Handler.class, handlers, new DefaultHandler()));
+            server.setHandler(handlerList);
             return server;
         }
     }
@@ -91,7 +93,8 @@ public class ServerRunner implements Runnable {
 
         @Override
         protected void configure() {
-            bind(Handler.class).to(ResourceHandler.class);
+            Multibinder<Handler> multi = Multibinder.newSetBinder(binder(), Handler.class);
+            multi.addBinding().to(ResourceHandler.class);
         }
 
         @Provides
