@@ -1,5 +1,6 @@
 package recipe;
 
+import com.google.common.collect.ImmutableCollection;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -38,8 +39,8 @@ public class ItemsRestClient {
         Reader reader = Channels.newReader(rx, "UTF-8");
 
         Gson g = new Gson();
-        //g.
-        return null;
+        QueryResponse resp = g.fromJson(reader, QueryResponse.class);
+        return resp.results();
     }
 
     Optional<Item> getById(int id) {
