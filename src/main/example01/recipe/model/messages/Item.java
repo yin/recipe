@@ -1,9 +1,8 @@
 package recipe.model.messages;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
 
 /**
  * I am so stupid, that I forgotten to change this javadoc, me fool.
@@ -11,7 +10,11 @@ import com.google.gson.TypeAdapter;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Item.Builder.class)
 public abstract class Item {
+
+    @JsonProperty("id")
     public abstract int id();
+
+    @JsonProperty("content")
     public abstract String content();
 
     public static Builder builder() {
@@ -23,8 +26,12 @@ public abstract class Item {
 
     @AutoValue.Builder
     public static abstract class Builder {
+        @JsonProperty("id")
         public abstract Builder id(int id);
+
+        @JsonProperty("content")
         public abstract Builder content(String content);
+
         public abstract Item build();
     }
 }

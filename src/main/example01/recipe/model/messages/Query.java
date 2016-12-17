@@ -10,16 +10,16 @@ import com.google.auto.value.AutoValue;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Query.Builder.class)
 public abstract class Query {
+
     @JsonProperty("low")
     public abstract long lowId();
 
     @JsonProperty("hi")
     public abstract long highId();
 
-    public static Query.Builder builder() {
+    public static Builder builder() {
         return new AutoValue_Query.Builder();
     }
-
     public static Query create(long low, long high) {
         return builder().lowId(low).highId(high).build();
     }

@@ -10,6 +10,7 @@ import com.google.auto.value.AutoValue;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_QueryRequest.Builder.class)
 public abstract class QueryRequest {
+
     @JsonProperty("query")
     public abstract Query query();
 
@@ -23,8 +24,10 @@ public abstract class QueryRequest {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         @JsonProperty("query")
         public abstract Builder query(Query query);
+
         public abstract QueryRequest build();
     }
 }

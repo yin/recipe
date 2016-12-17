@@ -20,6 +20,7 @@ import recipe.model.messages.QueryResponse;
 import recipe.model.services.ItemQueryService;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
@@ -52,10 +53,10 @@ public class ClientRunner implements Runnable {
         }
     }
 
-    private static void print(String header, Collection<Item> items) {
-        System.out.println(header);
+    private static void print(String header, Collection<Item> items, PrintStream out) {
+        out.println(header);
         for (Item i : items) {
-            System.out.println(i.toString());
+            out.println(i.toString());
         }
     }
 
@@ -70,9 +71,7 @@ public class ClientRunner implements Runnable {
         Query query = Query.create(3, 5);
         QueryRequest request = QueryRequest.create(query);
         QueryResponse response = client.query(request);
-        for (Item item : response.results()) {
-            System.out.println(item.toString());
-        }
+        print("query result:", response.results(), System.out);
     }
 
     class ClientModule extends AbstractModule {
@@ -98,8 +97,10 @@ public class ClientRunner implements Runnable {
             multi.addBinding().to(GuavaModule.class);
         }
 
-        ObjectMapper createObjectMapper(Set<Module> jascksonModules) {
-            return new ObjectMapper().registerModules(jascksonModules);
+        @Provides
+        public ObjectMapper createObjectMapper(Set<Module> jacksonModules) {
+            log.debug("jackson-modules: {}", jacksonModules);
+            return new ObjectMapper().registerModules(jacksonModules);
         }
     }
 }
