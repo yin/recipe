@@ -1,4 +1,6 @@
-package recipe;
+package recipe.example01;
+
+import recipe.client.ConnectionProvider;
 
 /**
  * I am so stupid, that I forgotten to change this javadoc, me fool.

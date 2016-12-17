@@ -1,4 +1,4 @@
-package recipe;
+package recipe.example01;
 
 import java.util.Collection;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package recipe;
+package recipe.example01;
 
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
@@ -9,7 +9,7 @@ import com.google.gson.TypeAdapter;
  */
 @AutoValue
 public abstract class Item {
-    public Item create(int id, String content) {
+    public static Item create(int id, String content) {
         return new AutoValue_Item(id, content);
     }
     public abstract int id();

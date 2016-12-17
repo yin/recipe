@@ -1,10 +1,13 @@
-package recipe;
+package recipe.client;
+
+import recipe.example01.Item;
+import recipe.example01.ItemsRestClient;
 
 import java.io.IOException;
 import java.util.Collection;
 
 /**
- * I am so stupid, that I forgotten to change this javadoc, me fool.
+ * Runs a REST client on url provided from cmdline.
  */
 public class ClientRunner {
     public static void main(String[] args) throws IOException {

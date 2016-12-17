@@ -1,4 +1,4 @@
-package recipe;
+package recipe.client;
 
 import com.google.auto.value.AutoValue;
 

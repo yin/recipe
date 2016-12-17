@@ -1,9 +1,9 @@
-package recipe;
+package recipe.example01;
 
 import com.google.auto.value.AutoValue;
 
 /**
- * I am so stupid, that I forgotten to change this javadoc, me fool.
+ * Represents a query for records with ids satisfying a given range.
  */
 @AutoValue
 public abstract class Query {

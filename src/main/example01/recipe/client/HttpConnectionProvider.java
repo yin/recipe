@@ -1,6 +1,5 @@
-package recipe;
+package recipe.client;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -10,8 +9,6 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
 import com.google.common.io.Closeables;
-import com.google.common.net.HttpHeaders;
-import sun.net.www.http.HttpClient;
 
 /**
  * I am so stupid, that I forgotten to change this javadoc, me fool.

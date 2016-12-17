@@ -1,12 +1,11 @@
-package recipe;
+package recipe.example01;
 
-import com.google.common.collect.ImmutableCollection;
 import com.google.gson.Gson;
+import recipe.client.Connection;
+import recipe.client.ConnectionProvider;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.io.Writer;
-import java.nio.channels.Channel;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
@@ -14,7 +13,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 /**
- * I am so stupid, that I forgotten to change this javadoc, me fool.
+ * Fetches Items from a RESTful collection.
  */
 public class ItemsRestClient {
     private final ConnectionProvider connectionProvider;
@@ -23,16 +22,16 @@ public class ItemsRestClient {
         this.connectionProvider = connectionProvider;
     }
 
-    Item create(Item item) {
+    public Item create(Item item) {
         throw new UnsupportedOperationException("this is TODO");
     }
 
-    long pages() {
+    public long pages() {
         return 0L;
     }
 
-    Collection<Item> get(int page) throws IOException {
-        ConnectionProvider.Connection connection = connectionProvider.getConnection();
+    public Collection<Item> get(int page) throws IOException {
+        Connection connection = connectionProvider.getConnection();
         WritableByteChannel tx = connection.getTxChannel();
         connection.flush();
         ReadableByteChannel rx = connection.getRxChannel();
@@ -43,15 +42,15 @@ public class ItemsRestClient {
         return resp.results();
     }
 
-    Optional<Item> getById(int id) {
+    public Optional<Item> getById(int id) {
         throw new UnsupportedOperationException("this is TODO");
     }
 
-    boolean update(Item item) {
+    public boolean update(Item item) {
         throw new UnsupportedOperationException("this is TODO");
     }
 
-    boolean delete(int id) {
+    public boolean delete(int id) {
         throw new UnsupportedOperationException("this is TODO");
     }
 }
