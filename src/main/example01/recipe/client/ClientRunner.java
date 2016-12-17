@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -36,10 +37,11 @@ public class ClientRunner implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(ClientRunner.class);
     private final URL url;
 
-    public static void main(String[] args) throws IOException {
-        try{new ClientRunner(parseArgs(args)).run();}catch (Exception e) {e.printStackTrace();}
+    public static void main(String[] args) throws IOException, InterruptedException {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(new ClientRunner(parseArgs(args)));
+        executor.shutdown();
+        executor.awaitTermination(Integer.MAX_VALUE, TimeUnit.DAYS);
     }
 
     private static URL parseArgs(String[] args) throws MalformedURLException, IllegalArgumentException {
