@@ -25,6 +25,12 @@ class JsonRpcServerModule extends AbstractModule {
     private final Module serviceModule;
     private static final Logger log  = LoggerFactory.getLogger(JsonRpcServerModule.class);
 
+    /** Marks the backend service instance receiving RPC calls. */
+    @BindingAnnotation
+    @Retention(RUNTIME) @Target({FIELD, PARAMETER, METHOD})
+    public @interface RpcService {
+    }
+
     public JsonRpcServerModule(Module serviceModule) {
         log.info("jsonrpc module created");
         this.serviceModule = serviceModule;
@@ -50,8 +56,4 @@ class JsonRpcServerModule extends AbstractModule {
         log.info("creating jetty handler for jsonrpc server: {}", jsonrpc);
         return new JsonRpcJettyHandler(jsonrpc);
     }
-
-    @BindingAnnotation
-    @Retention(RUNTIME) @Target({FIELD, PARAMETER, METHOD})
-    public @interface RpcService {}
 }

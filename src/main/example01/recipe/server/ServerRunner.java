@@ -27,7 +27,7 @@ public class ServerRunner implements Runnable {
             }
             Injector injector = Guice.createInjector(
                     new JettyHttpServerModule(),
-                    new JsonRpcServerModule(new ItemRpcModule()));
+                    new JsonRpcServerModule(new ItemQueryServiceImplModule()));
             Server server = injector.getInstance(Server.class);
             // Start things up! By using the server.join() the server thread will join with the current thread.
             // See "http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Thread.html#join()" for more details.

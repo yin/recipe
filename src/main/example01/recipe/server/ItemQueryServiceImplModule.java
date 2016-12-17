@@ -4,14 +4,14 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import recipe.example01.ItemQueryService;
-import recipe.example01.server.ItemQueryServiceImpl;
+import recipe.model.services.ItemQueryService;
+import recipe.model.impl.ItemQueryServiceImpl;
 
 /**
  * Constructs an Item query service.
  */
-class ItemRpcModule extends AbstractModule {
-    private Logger log = LoggerFactory.getLogger(ItemRpcModule.class);
+class ItemQueryServiceImplModule extends AbstractModule {
+    private Logger log = LoggerFactory.getLogger(ItemQueryServiceImplModule.class);
 
     @Override
     protected void configure() {

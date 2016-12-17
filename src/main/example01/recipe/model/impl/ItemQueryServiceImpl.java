@@ -1,14 +1,15 @@
-package recipe.example01.server;
+package recipe.model.impl;
 
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
-import recipe.example01.Item;
-import recipe.example01.ItemQueryService;
-import recipe.example01.QueryRequest;
-import recipe.example01.QueryResponse;
+
+import recipe.model.messages.Item;
+import recipe.model.messages.QueryRequest;
+import recipe.model.messages.QueryResponse;
+import recipe.model.services.ItemQueryService;
 
 /**
- * I am so stupid, that I forgotten to change this javadoc, me fool.
+ * Serves queries by always returning the same set of Items, no matter what's the query.
  */
 public class ItemQueryServiceImpl implements ItemQueryService {
     @Override

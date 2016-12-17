@@ -1,9 +1,11 @@
-package recipe.example01;
+package recipe.model.messages;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableCollection;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
+import recipe.example01.AutoValue_QueryResponse;
+import recipe.example01.Item;
 
 /**
  * Represents a response to a query request.
