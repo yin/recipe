@@ -13,6 +13,7 @@ import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
 import com.googlecode.jsonrpc4j.ProxyUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import recipe.io.JacksonModule;
 import recipe.model.messages.Item;
 import recipe.model.messages.Query;
 import recipe.model.messages.QueryRequest;
@@ -77,7 +78,7 @@ public class ClientRunner implements Runnable {
     class ClientModule extends AbstractModule {
         @Override
         protected void configure() {
-            jacksonConfigure();
+            install(new JacksonModule());
         }
 
         @Provides
@@ -90,17 +91,6 @@ public class ClientRunner implements Runnable {
             ItemQueryService proxy =
                     ProxyUtil.createClientProxy(getClass().getClassLoader(), ItemQueryService.class, client);
             return proxy;
-        }
-
-        private void jacksonConfigure() {
-            Multibinder multi = Multibinder.newSetBinder(binder(), Module.class);
-            multi.addBinding().to(GuavaModule.class);
-        }
-
-        @Provides
-        public ObjectMapper createObjectMapper(Set<Module> jacksonModules) {
-            log.debug("jackson-modules: {}", jacksonModules);
-            return new ObjectMapper().registerModules(jacksonModules);
         }
     }
 }

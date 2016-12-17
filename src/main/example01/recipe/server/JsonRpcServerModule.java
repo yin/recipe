@@ -10,6 +10,7 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import recipe.io.JacksonModule;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -18,7 +19,7 @@ import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Constructs a ResourceHandler serving static files directly from filesystem.
+ * Constructs a json-rpc server and an adapter for jetty.
  * See {@linkplain http://www.eclipse.org/jetty/documentation/9.3.x/embedded-examples.html}
  */
 class JsonRpcServerModule extends AbstractModule {
@@ -31,6 +32,12 @@ class JsonRpcServerModule extends AbstractModule {
     public @interface RpcService {
     }
 
+    /** Marks the service interface implemented by the service. */
+    @BindingAnnotation
+    @Retention(RUNTIME) @Target({FIELD, PARAMETER, METHOD})
+    public @interface RpcInterface {
+    }
+
     public JsonRpcServerModule(Module serviceModule) {
         log.info("jsonrpc module created");
         this.serviceModule = serviceModule;
@@ -40,12 +47,13 @@ class JsonRpcServerModule extends AbstractModule {
     protected void configure() {
         log.info("jsonrpc module config, with service-module: {}", serviceModule);
         install(serviceModule);
+        install(new JacksonModule());
         Multibinder<Handler> multi = Multibinder.newSetBinder(binder(), Handler.class);
         multi.addBinding().to(JsonRpcJettyHandler.class);
     }
 
     @Provides
-    public JsonRpcServer createJsonRpc(@RpcService Object service) {
+    public JsonRpcServer createJsonRpc(@RpcService Object service, @RpcInterface Class<?> iface) {
         log.info("creating jsonrpc server from service: {}", service);
         JsonRpcServer handler = new JsonRpcServer(service);
         return handler;
