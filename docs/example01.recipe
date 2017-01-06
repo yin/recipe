@@ -1,0 +1,38 @@
+/*
+ * This is an example of how a recipe file should look like. In this example we define a Web API protocol,
+ * featuring a RPC service and a RESTful collection. It a draft and now it's based on Google's Protocol Buffer
+ * syntax.
+ */
+// Recipes do have a name
+recipe example01
+
+requires message, service, restful
+
+// With recipe you want to transform a structure into multiple outputs
+// In this case we want to generate our protocol into two different languages
+output = [ 'java', 'python' ]
+java.package = "com.github.yin.recipe.example01"
+
+// Each message s supposed to generates a class in the target languages
+message Item {
+  int id
+  string content
+  optional string label
+}
+
+message QueryRequest {
+  int lowId
+  int highId
+}
+
+message QueryResponse {
+  repeated Item results
+}
+
+// This is how an RPC service could look like...
+rpc ItemQuery {
+  QueryResponse query(QueryRequest)
+}
+
+// Not sure about the syntax for RUSTful collections
+restful Items(Item.id)

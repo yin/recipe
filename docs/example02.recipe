@@ -1,0 +1,8 @@
+/*
+ * For now, to reference a recipe structure in yet another language, you can add the language to another recipe.
+ */
+recipe example02
+
+include example01
+
+output += [ 'ruby' ]
