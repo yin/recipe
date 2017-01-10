@@ -1,5 +1,6 @@
 package com.github.yin.recipe.model.bootstrap;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.yin.recipe.model.Ingredient;
 import com.github.yin.recipe.model.NameIngredient;
 import com.google.auto.value.AutoValue;
@@ -7,6 +8,7 @@ import com.google.auto.value.AutoValue;
 /**
  * Represents a value class for bootstrapping purposes.
  */
+@JsonDeserialize(as = AutoValue_BootstrapIngredient.class)
 @AutoValue
 public abstract class BootstrapIngredient implements Ingredient {
     public Ingredient create(BootstrapNameIngredient name, Object data) {

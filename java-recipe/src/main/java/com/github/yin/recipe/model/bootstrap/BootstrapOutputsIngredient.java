@@ -1,5 +1,6 @@
 package com.github.yin.recipe.model.bootstrap;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.yin.recipe.model.OutputsIngredient;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
@@ -7,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 /**
  * Represents recipe outputs for bootstrapping purposes.
  */
+@JsonDeserialize(as = AutoValue_BootstrapOutputsIngredient.class)
 @AutoValue
 public abstract class BootstrapOutputsIngredient implements OutputsIngredient {
     public OutputsIngredient create(ImmutableList<String> values) {
