@@ -19,7 +19,7 @@ public class JavaLanguageUtilitiesTest {
         try {
             TestOs[] ary = JavaLanguageUtilities.constructArray(TestOs.class, null);
             fail("should check for null lists");
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException e) {
             // success
         }
     }
@@ -29,7 +29,7 @@ public class JavaLanguageUtilitiesTest {
         try {
             TestOs[] ary = JavaLanguageUtilities.constructArray(TestOs.class, null, O0);
             fail("should check for null lists");
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException e) {
             // success
         }
     }
