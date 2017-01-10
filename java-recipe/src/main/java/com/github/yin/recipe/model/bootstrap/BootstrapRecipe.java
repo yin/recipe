@@ -1,5 +1,6 @@
 package com.github.yin.recipe.model.bootstrap;
 
+import com.github.yin.recipe.model.Ingredient;
 import com.github.yin.recipe.model.NameIngredient;
 import com.github.yin.recipe.model.OutputsIngredient;
 import com.github.yin.recipe.model.Recipe;
@@ -11,7 +12,8 @@ import com.google.common.collect.ImmutableList;
  */
 @AutoValue
 public abstract class BootstrapRecipe implements Recipe {
-    public Recipe create(NameIngredient name, OutputsIngredient outputs, ImmutableList<Recipe> mainIngredients) {
+
+    public Recipe create(NameIngredient name, OutputsIngredient outputs, ImmutableList<Ingredient> mainIngredients) {
         return builder().name(name).outputs(outputs).mainIngredients(mainIngredients).build();
     }
 
@@ -25,7 +27,7 @@ public abstract class BootstrapRecipe implements Recipe {
 
         public abstract Builder outputs(OutputsIngredient outputs);
 
-        public abstract Builder mainIngredients(ImmutableList<Recipe> mainIngredients);
+        public abstract Builder mainIngredients(ImmutableList<Ingredient> mainIngredients);
 
         public abstract BootstrapRecipe build();
     }

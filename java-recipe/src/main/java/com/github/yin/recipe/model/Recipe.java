@@ -8,5 +8,5 @@ import com.google.common.collect.ImmutableList;
 public interface Recipe {
     NameIngredient name();
     OutputsIngredient outputs();
-    ImmutableList<Recipe> mainIngredients();
+    ImmutableList<Ingredient> mainIngredients();
 }
