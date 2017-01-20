@@ -1,5 +1,6 @@
 package recipe.server;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.AbstractModule;
 import com.google.inject.BindingAnnotation;
 import com.google.inject.Module;
@@ -53,9 +54,9 @@ class JsonRpcServerModule extends AbstractModule {
     }
 
     @Provides
-    public JsonRpcServer createJsonRpc(@RpcService Object service, @RpcInterface Class<?> iface) {
+    public JsonRpcServer createJsonRpc(ObjectMapper mapper, @RpcService Object service, @RpcInterface Class iface) {
         log.info("creating jsonrpc server from service: {}", service);
-        JsonRpcServer handler = new JsonRpcServer(service);
+        JsonRpcServer handler = new JsonRpcServer(mapper, service, iface);
         return handler;
     }
 

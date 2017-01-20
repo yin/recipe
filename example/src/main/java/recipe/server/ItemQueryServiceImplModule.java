@@ -2,6 +2,7 @@ package recipe.server;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import recipe.model.services.ItemQueryService;
@@ -17,11 +18,12 @@ class ItemQueryServiceImplModule extends AbstractModule {
     protected void configure() {
         log.info("item rpc config");
         bind(Object.class).annotatedWith(JsonRpcServerModule.RpcService.class).to(ItemQueryServiceImpl.class);
+        bind(Class.class).annotatedWith(JsonRpcServerModule.RpcInterface.class).toInstance(ItemQueryService.class);
     }
 
     @Provides
-    public ItemQueryService createRpcService() {
-        log.info("item rpc config");
+    @Singleton
+    public ItemQueryServiceImpl createRpcService() {
         return new ItemQueryServiceImpl();
     }
 
