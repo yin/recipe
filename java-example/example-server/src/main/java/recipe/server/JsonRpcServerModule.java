@@ -8,7 +8,6 @@ import com.google.inject.Provides;
 import com.google.inject.multibindings.Multibinder;
 import com.googlecode.jsonrpc4j.JsonRpcServer;
 import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import recipe.io.JacksonModule;

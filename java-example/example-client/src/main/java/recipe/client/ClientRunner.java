@@ -15,7 +15,6 @@ import recipe.model.messages.Query;
 import recipe.model.messages.QueryRequest;
 import recipe.model.messages.QueryResponse;
 import recipe.model.services.ItemQueryService;
-import sun.util.resources.cldr.gl.LocaleNames_gl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
