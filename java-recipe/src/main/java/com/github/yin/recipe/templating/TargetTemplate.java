@@ -2,12 +2,14 @@ package com.github.yin.recipe.templating;
 
 import com.google.auto.value.AutoValue;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
 
 /**
  * Runs the code-generation and produces a hierarchical collection of resources
- * encapsulating the outputs.
+ * encapsulating the outputs. Each output may come from a TargetTemplate of
+ * completely different implementations.
  */
 @FunctionalInterface
 public interface TargetTemplate {
@@ -17,7 +19,7 @@ public interface TargetTemplate {
      * @returns A {@link Set} of resources located in a hierarchy.
      * This is likely to be change to a proper model to be queried.
      */
-    Set<TargetElement> generate(Object data);
+    Set<TargetElement> generate();
 
     /**
      * Maps code-generator output to a location in a hierarchical structure, so
@@ -32,6 +34,6 @@ public interface TargetTemplate {
          * determine which resources actually need to be materialized
          */
         public abstract Iterable<String> depenencySelectors();
-        public abstract InputStream content();
+        public abstract InputStream content() throws IOException;
     }
 }
