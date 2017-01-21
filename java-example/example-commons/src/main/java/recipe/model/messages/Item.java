@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
-/**
- * I am so stupid, that I forgotten to change this javadoc, me fool.
- */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Item.Builder.class)
 public abstract class Item {
