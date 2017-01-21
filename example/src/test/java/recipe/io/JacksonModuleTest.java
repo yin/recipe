@@ -12,9 +12,6 @@ import recipe.model.messages.QueryResponse;
 
 import static org.junit.Assert.*;
 
-/**
- * I am so stupid, that I forgotten to change this javadoc, me fool.
- */
 public class JacksonModuleTest {
     private static ObjectMapper mapper;
 

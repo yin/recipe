@@ -10,7 +10,7 @@ requires message, service, restful
 
 // With recipe you want to transform a structure into multiple outputs
 // In this case we want to generate our protocol into two different languages
-output = [ 'java', 'python' ]
+targets = [ 'java' ]
 java.package = "com.github.yin.recipe.example01"
 
 // Each message s supposed to generates a class in the target languages

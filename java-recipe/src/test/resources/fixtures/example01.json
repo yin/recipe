@@ -1,0 +1,29 @@
+{
+  "name": "test-recipe",
+  "targets": ["java"],
+  "ingredients": [{
+    "message": {
+      "name": "Message01",
+      "fields": [{
+        "name": "id",
+        "type": "int64",
+        "modifiers": []
+      }, {
+        "name": "text",
+        "type": "string",
+        "modifiers": ["OPTIONAL"]
+      }]
+    }
+  }, {
+    "service": {
+      "name": "ListingService",
+      "endpoints": [{
+        "name": "getMessages",
+        "output": "Message01",
+        "inputs": {
+          "id": "int64"
+        }
+      }]
+    }
+  }]
+}

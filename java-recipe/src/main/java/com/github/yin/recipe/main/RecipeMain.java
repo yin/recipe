@@ -22,16 +22,17 @@ public class RecipeMain {
             try {
                 handleInputFile(arg);
             } catch (Exception e) {
-                log.error("Processing recipe file resulted in error: " + args, e);
+                log.error("Processing recipe file resulted in error", e);
             }
         }
     }
 
-    private static void handleInputFile(String arg) throws IOException {
-        Injector injector = Guice.createInjector(new RecipeModule(arg));
+    private static void handleInputFile(String inputFile) throws IOException {
+        log.info("Loading file: {}", inputFile);
+        Injector injector = Guice.createInjector(new RecipeModule(inputFile));
         LocalJsonRecipeReader reader = injector.getInstance(LocalJsonRecipeReader.class);
         Recipe recipe = reader.read();
-        System.out.println(recipe);
+        log.info("Loaded recipe: {}", recipe);
     }
 
     private static class RecipeModule extends AbstractModule {

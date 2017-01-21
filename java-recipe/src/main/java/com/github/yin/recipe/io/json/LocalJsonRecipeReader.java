@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.yin.recipe.io.DataReader;
 import com.github.yin.recipe.model.Recipe;
-import com.github.yin.recipe.model.bootstrap.BootstrapRecipe;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +24,7 @@ public class LocalJsonRecipeReader implements DataReader<Recipe> {
     @Override
     public Recipe read() throws IOException {
         try (InputStream in = Files.newInputStream(inputFile, StandardOpenOption.READ)) {
-            JavaType recipeType = mapper.constructType(BootstrapRecipe.class);
+            JavaType recipeType = mapper.constructType(Recipe.class);
             Object value = mapper.readValue(in, recipeType);
             return (Recipe) value;
         }

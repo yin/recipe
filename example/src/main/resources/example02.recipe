@@ -5,4 +5,4 @@ recipe example02
 
 include example01
 
-output += [ 'ruby' ]
+targets = [ 'python', 'ruby' ]
