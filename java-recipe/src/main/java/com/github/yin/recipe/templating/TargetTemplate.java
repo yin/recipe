@@ -2,8 +2,6 @@ package com.github.yin.recipe.templating;
 
 import com.google.auto.value.AutoValue;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Set;
 
 /**
@@ -27,13 +25,17 @@ public interface TargetTemplate {
      */
     @AutoValue
     abstract class TargetElement {
+        public static TargetElement create(String locator, Iterable<String> dependencies) {
+            return new AutoValue_TargetTemplate_TargetElement(locator, dependencies);
+        }
+
         /** Locates a resource in 1+ hierarchies, syntax TBD */
         public abstract String locator();
+
         /**
          * Enables to query the resource collection for dependecy relations and
          * determine which resources actually need to be materialized
          */
         public abstract Iterable<String> depenencySelectors();
-        public abstract InputStream content() throws IOException;
     }
 }
