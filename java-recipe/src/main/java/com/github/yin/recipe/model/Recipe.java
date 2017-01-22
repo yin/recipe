@@ -14,7 +14,7 @@ public abstract class Recipe {
     public static Recipe create(@JsonDeserialize(as = Reference.class) Reference name,
                                 @JsonDeserialize(as = Targets.class) Targets targets,
                                 @JsonDeserialize(contentAs = Ingredient.class) ImmutableList<Ingredient> mainIngredients) {
-        return builder().name(name).targets(targets).mainIngredients(mainIngredients).build();
+        return builder().name(name).targets(targets).ingredients(mainIngredients).build();
     }
 
     public static Builder builder() {
@@ -28,7 +28,7 @@ public abstract class Recipe {
     public abstract Targets targets();
 
     @JsonProperty("ingredients")
-    public abstract ImmutableList<Ingredient> mainIngredients();
+    public abstract ImmutableList<Ingredient> ingredients();
 
     @AutoValue.Builder
     public static abstract class Builder {
@@ -39,7 +39,7 @@ public abstract class Recipe {
         public abstract Builder targets(Targets targets);
 
         @JsonProperty("ingredients")
-        public abstract Builder mainIngredients(ImmutableList<Ingredient> mainIngredients);
+        public abstract Builder ingredients(ImmutableList<Ingredient> ingredients);
 
         public abstract Recipe build();
     }
