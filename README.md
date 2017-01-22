@@ -79,3 +79,7 @@ conventions for your target materializations, but that could be solved).
 It would be really nice in future, if Recipe appeals to coders of any
 language. Don't let the Java put you down! There is no planned dependency
 on Java platform, nor any other platform.
+
+LICENSE
+=======
+MIT License, (C) 2016-2017 Matej 'Yin' Gagyi
