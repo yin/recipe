@@ -1,6 +1,7 @@
 package com.github.yin.recipe.templating.st4;
 
 import com.github.yin.recipe.model.Ingredient;
+import com.github.yin.recipe.model.Message;
 import com.github.yin.recipe.templating.TargetTemplate;
 import com.google.common.collect.ImmutableMap;
 import org.antlr.runtime.ANTLRInputStream;
@@ -34,6 +35,9 @@ public class St4TargetTemplate implements TargetTemplate {
         URL locate = St4Templates.locate(type.getName(), target);
         this.stg = new ProperlyWorkingSTGroup();
         stg.load(locate.openStream());
+        stg.registerModelAdaptor(Message.class, new AutoValueAdaptor());
+        stg.registerModelAdaptor(Message.Field.class, new AutoValueAdaptor());
+        stg.registerModelAdaptor(Message.Field.Modifiers.class, new AutoValueAdaptor());
         this.target = target;
         this.type = type;
     }
