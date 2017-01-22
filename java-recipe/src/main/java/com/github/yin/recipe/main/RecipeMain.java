@@ -1,9 +1,12 @@
 package com.github.yin.recipe.main;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.yin.recipe.cookbooks.Cookbooks;
+import com.github.yin.recipe.cookbooks.CookbooksModule;
 import com.github.yin.recipe.io.json.JacksonModule;
 import com.github.yin.recipe.io.json.LocalJsonRecipeReader;
 import com.github.yin.recipe.model.Recipe;
+import com.github.yin.recipe.processing.Chef;
 import com.google.inject.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,11 +31,15 @@ public class RecipeMain {
     }
 
     private static void handleInputFile(String inputFile) throws IOException {
-        log.info("Loading file: {}", inputFile);
         Injector injector = Guice.createInjector(new RecipeModule(inputFile));
+        log.info("Loading file: {}", inputFile);
         LocalJsonRecipeReader reader = injector.getInstance(LocalJsonRecipeReader.class);
         Recipe recipe = reader.read();
         log.info("Loaded recipe: {}", recipe);
+        log.info("Running Chef");
+        Chef chef = injector.getInstance(Chef.class);
+        chef.process(recipe);
+        log.info("Chef done processing recipe");
     }
 
     private static class RecipeModule extends AbstractModule {
@@ -44,11 +51,17 @@ public class RecipeMain {
         @Override
         protected void configure() {
             install(new JacksonModule());
+            install(new CookbooksModule());
         }
 
         @Provides
-        public LocalJsonRecipeReader createJsonReader(ObjectMapper mapper) {
+        public LocalJsonRecipeReader jsonReader(ObjectMapper mapper) {
             return new LocalJsonRecipeReader(mapper, Paths.get(recipeFile));
+        }
+
+        @Provides
+        public Chef chef(Cookbooks cookbooks) {
+            return new Chef(cookbooks);
         }
     }
 }
