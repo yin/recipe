@@ -8,6 +8,8 @@ import com.github.yin.recipe.templating.TargetTemplate.TargetElement;
 import com.github.yin.recipe.templating.st4.St4TargetTemplate;
 import com.google.auto.service.AutoService;
 import com.google.common.collect.ImmutableSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -23,7 +25,7 @@ import static java.nio.file.StandardOpenOption.*;
  */
 @AutoService(value = Cookbook.class)
 public class MessageCookbook implements Cookbook<Message> {
-
+    private static final Logger log = LoggerFactory.getLogger(MessageCookbook.class);
     @Override
     public Class<Message> ingredientClass() {
         return Message.class;
@@ -39,7 +41,7 @@ public class MessageCookbook implements Cookbook<Message> {
 
     public IngredientProcessor<Message> processor() {
         return (Message message, String target) -> ImmutableSet.of(
-                    TargetElement.create("output message " + message.name(),
+                    TargetElement.create("output message " + message.name() + ".java",
                             ImmutableSet.of())
             );
     }
@@ -52,6 +54,7 @@ public class MessageCookbook implements Cookbook<Message> {
     public TargetMaterializer materializer() {
         return (Message message, String target, TargetElement element) -> {
             Path located = outStreamLocator().locate(element);
+            log.info("Writting file {}", located);
             try(OutputStream out = Files.newOutputStream(located, WRITE, CREATE, TRUNCATE_EXISTING)) {
                 targetTemplate(target).generate(message, element, out);
             }
