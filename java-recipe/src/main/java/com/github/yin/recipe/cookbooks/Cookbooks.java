@@ -16,16 +16,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Loads and keeps track of recipe cookbooks.
  */
 public class Cookbooks {
-    private final Iterable<Cookbook> serviceLoader;
+    private final Iterable<Cookbook> cookbooks;
 
     @Inject
     public Cookbooks(@CookbookRegistry Iterable<Cookbook> serviceLoader) {
-        this.serviceLoader = serviceLoader;
+        this.cookbooks = serviceLoader;
     }
-    public Cookbook get(Ingredient ingredient) {
-        Class<?> clazz = ingredient.getClass();
-        for (Cookbook module : serviceLoader) {
-            if (module.ingredientClass() == clazz) {
+    public Cookbook forIngredient(Class<? extends Ingredient> clazz) {
+        for (Cookbook module : cookbooks) {
+            if (module.ingredientClass().isAssignableFrom(clazz)) {
                 return module;
             }
         }

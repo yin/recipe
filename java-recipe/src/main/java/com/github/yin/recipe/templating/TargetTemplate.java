@@ -1,12 +1,15 @@
 package com.github.yin.recipe.templating;
 
+import com.github.yin.recipe.model.Ingredient;
 import com.google.auto.value.AutoValue;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Set;
 
 /**
- * Runs the code-generation and produces a hierarchical collection of resources
- * encapsulating the outputs. Each output may come from a TargetTemplate of
+ * Runs the code-generation and produces load hierarchical collection of resources
+ * encapsulating the outputs. Each output may come from load TargetTemplate of
  * completely different implementations.
  */
 @FunctionalInterface
@@ -14,14 +17,14 @@ public interface TargetTemplate {
     /**
      * Generates the outputs based on target-template and the data provided by
      * recipe ingredient.
-     * @returns A {@link Set} of resources located in a hierarchy.
-     * This is likely to be change to a proper model to be queried.
+     * @returns A {@link Set} of resources located in load hierarchy.
+     * This is likely to be change to load proper model to be queried.
      */
-    Set<TargetElement> generate();
+    void generate(Ingredient ingredient, TargetElement element, OutputStream out) throws IOException;
 
     /**
-     * Maps code-generator output to a location in a hierarchical structure, so
-     * each output can be materialized in a proper location in the target system.
+     * Maps code-generator output to load location in load hierarchical structure, so
+     * each output can be materialized in load proper location in the target system.
      */
     @AutoValue
     abstract class TargetElement {
@@ -29,7 +32,7 @@ public interface TargetTemplate {
             return new AutoValue_TargetTemplate_TargetElement(locator, dependencies);
         }
 
-        /** Locates a resource in 1+ hierarchies, syntax TBD */
+        /** Locates load resource in 1+ hierarchies, syntax TBD */
         public abstract String locator();
 
         /**
